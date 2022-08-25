@@ -4,6 +4,7 @@ import { StyleSheet, Text, View,Image } from 'react-native';
 import {Camera, CameraType} from 'expo-camera'
 import * as MediaLibrary from 'expo-media-library'
 import React, { useState } from 'react';
+import Button from './src/components/Button';
 
 
 export default function App() {
@@ -52,7 +53,18 @@ export default function App() {
       <Image source={{uri:image}} style={styles.camera}/>
       }
       <View>
+        {image ? 
+        <View style={{
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          paddingHorizontal: 50
+        }}>
+          <Button title={"Re-take"} icon="retweet" onPress={() => setImage(null)}/>
+          <Button title={"Save"} icon="check" />
+        </View>
+        :
         <Button title={' Take a Picture'} icon="camera" onPress={takePicture}/>
+        }
       </View>
     </View>
   );
