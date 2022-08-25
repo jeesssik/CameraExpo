@@ -34,7 +34,7 @@ export default function App() {
       <Text>Helllloooo</Text>
       </Camera>
       <View>
-        
+        <Button title={' Take a Picture'} icon="camera" />
       </View>
     </View>
   );
