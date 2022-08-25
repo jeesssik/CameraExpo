@@ -1,13 +1,12 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,Image } from 'react-native';
 import {Camera, CameraType} from 'expo-camera'
 import * as MediaLibrary from 'expo-media-library'
 import React, { useState } from 'react';
 
 
 export default function App() {
-  
   const [hasCameraPermission, setHasCameraPermission]= useState(null);
   const [image, setImage]= useState(null);
   const [type, setType]= useState(Camera.Constants.Type.back);
@@ -22,9 +21,25 @@ export default function App() {
     }) ();
   },[])
 
+  const takePicture = async () =>{
+    if (cameraRef){
+      try{
+        const data = await cameraRef.current.takePictureAsync();
+        console.log(data);
+        setImage(data.uri);
+      }catch(e){
+        console.log(e);
+      }
+    }
+  }
+
+ if(hasCameraPermission === false){
+  return <Text> No acces to camera</Text>
+ }
 
   return (
     <View style={styles.container}>
+      {!image ?
       <Camera
         style={styles.camera}
         type={type}
@@ -33,8 +48,11 @@ export default function App() {
      >
       <Text>Helllloooo</Text>
       </Camera>
+      :
+      <Image source={{uri:image}} style={styles.camera}/>
+      }
       <View>
-        <Button title={' Take a Picture'} icon="camera" />
+        <Button title={' Take a Picture'} icon="camera" onPress={takePicture}/>
       </View>
     </View>
   );
@@ -43,8 +61,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000',
     justifyContent: 'center',
+    paddingBottom:20,
   },
   camera:{
     flex:1,
