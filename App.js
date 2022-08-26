@@ -1,9 +1,8 @@
 import React, {useState, useEffect, useRef} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View,Image } from 'react-native';
-import {Camera, CameraType} from 'expo-camera'
-import * as MediaLibrary from 'expo-media-library'
-import React, { useState } from 'react';
+import {Camera, CameraType} from 'expo-camera';
+import * as MediaLibrary from 'expo-media-library';
 import Button from './src/components/Button';
 
 
@@ -33,6 +32,17 @@ export default function App() {
       }
     }
   }
+
+ const saveImage= async () =>{
+  if(image){
+    try{
+      await MediaLibrary.createAssetAsync(image);
+      alert('Picture save!')
+    }catch(e){
+      console.log(e)
+    }
+  }
+ }
 
  if(hasCameraPermission === false){
   return <Text> No acces to camera</Text>
