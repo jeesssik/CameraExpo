@@ -38,6 +38,7 @@ export default function App() {
     try{
       await MediaLibrary.createAssetAsync(image);
       alert('Picture save!')
+      setImage(null);
     }catch(e){
       console.log(e)
     }
@@ -57,7 +58,23 @@ export default function App() {
         flashMode={flash}
         ref={cameraRef}
      >
-      <Text>Helllloooo</Text>
+      <View style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 30,
+      }}>
+        <Button icon={'retweet'} onPress={()=>
+          setType(type===CameraType.back?CameraType.front:CameraType.back)
+        }/>
+        <Button icon={'flash'} 
+          color={flash === Camera.Constants.FlashMode.off ? 'gray' : '#f1f1f1'}
+          onPress={() =>{
+            setFlash(flash === Camera.Constants.FlashMode.off
+              ? Camera.Constants.FlashMode.on
+              : Camera.Constants.FlashMode.off
+              )
+          }}/>
+      </View>
       </Camera>
       :
       <Image source={{uri:image}} style={styles.camera}/>
@@ -70,7 +87,7 @@ export default function App() {
           paddingHorizontal: 50
         }}>
           <Button title={"Re-take"} icon="retweet" onPress={() => setImage(null)}/>
-          <Button title={"Save"} icon="check" />
+          <Button title={"Save"} icon="check"  onPress={saveImage}/>
         </View>
         :
         <Button title={' Take a Picture'} icon="camera" onPress={takePicture}/>
@@ -86,10 +103,11 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     justifyContent: 'center',
     paddingBottom:20,
+    paddingTop:20,
   },
   camera:{
     flex:1,
-    borderRadius:20,
+    borderRadius:15,
   }
 
 });
